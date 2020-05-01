@@ -19,7 +19,7 @@ __DATA__
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local cjson = require "cjson"
             local shared_key = "12341234123412341234123412341234" ..
                                "12341234123412341234123412341234"
@@ -49,7 +49,7 @@ GET /t
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local cjson = require "cjson"
             local shared_key = "12341234123412341234123412341234"
 
@@ -78,7 +78,7 @@ GET /t
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local cjson = require "cjson"
             local shared_key = "12341234123412341234123412341234"
 
@@ -111,7 +111,7 @@ verified: false
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local cjson = require "cjson"
             local shared_key = "12341234123412341234123412341234"
 
@@ -146,7 +146,7 @@ verified: true
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local cjson = require "cjson"
             local shared_key = "12341234123412341234123412341234" ..
                                "12341234123412341234123412341234"
@@ -182,7 +182,7 @@ verified: true
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local cjson = require "cjson"
 
             local function get_testcert(name)
@@ -230,7 +230,7 @@ verified: true
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local cjson = require "cjson"
 
             local function get_testcert(name)
@@ -274,7 +274,7 @@ invalid typ: INVALID
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local cjson = require "cjson"
 
             local function get_testcert(name)
@@ -318,7 +318,7 @@ Decode secret is not a valid cert/public key: invalid RSA
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local cjson = require "cjson"
 
             local function get_testcert(name)
@@ -362,7 +362,7 @@ unsupported payload encryption algorithm :A256CBC
 --- config
     location /t {
         content_by_lua '
-            local jwt_module = require "resty.jwt"
+            local jwt_module = require "kong.plugins.oidc.jwt"
             local cjson = require "cjson"
 
             local function split_string(str, delim)

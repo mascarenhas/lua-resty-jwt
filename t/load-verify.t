@@ -22,7 +22,7 @@ __DATA__
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             ngx.say(
                 "urlsafe b64encoded {foo: bar}: ",
                 jwt:jwt_encode({foo="bar"})
@@ -42,7 +42,7 @@ urlsafe b64encoded {foo: bar}: eyJmb28iOiJiYXIifQ2
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             ngx.say(
                 "urlsafe b64encoded {foo: bar}: ",
                 jwt:jwt_encode("{\\"foo\\":\\"bar\\"}")
@@ -62,7 +62,7 @@ urlsafe b64encoded {foo: bar}: eyJmb28iOiJiYXIifQ2
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local decoded = jwt:jwt_decode("eyJmb28iOiJiYXIifQ", true)
             ngx.say("table eyJmb28iOiJiYXIifQ2: foo=", decoded["foo"])
         ';
@@ -80,7 +80,7 @@ table eyJmb28iOiJiYXIifQ2: foo=bar
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local decoded = jwt:jwt_decode("eyJmb28iOiJiYXIifQ")
             ngx.say("table eyJmb28iOiJiYXIifQ2: ", decoded)
         ';
@@ -98,7 +98,7 @@ table eyJmb28iOiJiYXIifQ2: {"foo":"bar"}
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:load_jwt(
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9" ..
                 ".eyJmb28iOiJiYXIifQ" ..
@@ -120,7 +120,7 @@ alg is: HS256 foo is: bar
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:load_jwt(
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9" ..
                 ".eyJmb28iOiJiYXIifQbad-format" ..
@@ -142,7 +142,7 @@ reason: invalid payload: eyJmb28iOiJiYXIifQbad-format
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:load_jwt("invalid-random-str")
             ngx.say(jwt_obj["verified"])
             ngx.say(jwt_obj["reason"])
@@ -162,7 +162,7 @@ invalid jwt string
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_str = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9" ..
                 ".eyJmb28iOiJiYXIifQ" ..
                 ".signature"
@@ -186,7 +186,7 @@ signature mismatch: signature
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_str = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9" ..
                 ".eyJmb28iOiJiYXIifQ" ..
                 ".VAoRL1IU0nOguxURF2ZcKR0SGKE1gCbqwyh8u2MLAyY"
@@ -213,7 +213,7 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
                 ".eyJmb28iOiJiYXIiLCJleHAiOjk5OTk5OTk5OTl9" ..
                 ".Y503HYultweqOpvvNF3fj2FTb_rH7ZwKAXap6cPqXjw"
@@ -240,7 +240,7 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
                 ".eyJmb28iOiJiYXIiLCJleHAiOjB9" ..
                 ".btivkb1guN1sQBYYVcrigEuNVvDOp1PDrbgaNSD3Whg"
@@ -268,7 +268,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
                 ".eyJmb28iOiJiYXIiLCJuYmYiOjB9" ..
                 ".qZeWRQBHZhRcszwbiL7JV6Nf-irT75u4IHhoQBTqkzo"
@@ -295,7 +295,7 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
                 ".eyJmb28iOiJiYXIiLCJuYmYiOjk5OTk5OTk5OTl9" ..
                 ".Wfu3owxbzlrb0GXvV0D22Si8WEDP0WeRGwZNPAoYHMI"
@@ -323,7 +323,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
                 ".eyJmb28iOiJiYXIiLCJuYmYiOjk5OTk5OTk5OTl9" ..
                 ".Wfu3owxbzlrb0GXvV0D22Si8WEDP0WeRGwZNPAoYHMI"
@@ -351,7 +351,7 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
 
             local function get_public_key(url, iss, kid)
                 if iss ~= nil then
@@ -397,7 +397,7 @@ bar
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
 
             local function get_public_key(url)
                 local f = io.open("/lua-resty-jwt/testcerts/cert.pem", "rb");
@@ -438,7 +438,7 @@ Wrongly encoded signature
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
 
             local public_key = [[
 -----BEGIN PUBLIC KEY-----
@@ -483,7 +483,7 @@ test
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
 
             -- pubkey.pem
             local public_key = [[
@@ -531,7 +531,7 @@ Wrongly encoded signature
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
 
             local function get_public_key(url, iss, kid)
                 if iss ~= nil then
@@ -578,7 +578,7 @@ Verification failed
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
 
             local public_key = [[
 -----BEGIN PUBLIC KEY-----
@@ -616,7 +616,7 @@ test
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
 
             local function get_public_key(url, iss, kid)
                 if iss ~= nil then

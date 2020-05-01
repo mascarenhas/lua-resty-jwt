@@ -19,7 +19,7 @@ __DATA__
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -45,8 +45,8 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -74,8 +74,8 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -103,8 +103,8 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -132,8 +132,8 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -161,8 +161,8 @@ Claim 'sub' ('Test Subject') returned failure
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -196,8 +196,8 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -231,8 +231,8 @@ Test Subject does not pass function
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -260,8 +260,8 @@ false
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -294,7 +294,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local success, err = pcall(function () jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -321,7 +321,7 @@ Claim spec value must be a function - see jwt-validators.lua for helper function
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local success, err = pcall(function () jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -348,8 +348,8 @@ Claim spec value must be a function - see jwt-validators.lua for helper function
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -379,8 +379,8 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -408,8 +408,8 @@ Claim 'sub' ('Test Subject') returned failure
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -437,8 +437,8 @@ Error String
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -466,8 +466,8 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -495,8 +495,8 @@ false
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local cjson = require "cjson.safe"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
@@ -533,8 +533,8 @@ nil
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -568,8 +568,8 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..
@@ -615,8 +615,8 @@ nil
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
-            local validators = require "resty.jwt-validators"
+            local jwt = require "kong.plugins.oidc.jwt"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local cjson = require "cjson.safe"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
@@ -661,7 +661,7 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" ..

@@ -1,8 +1,8 @@
 local cjson = require "cjson.safe"
 
 local aes = require "resty.aes"
-local evp = require "resty.evp"
-local hmac = require "resty.hmac"
+local evp = require "kong.plugins.oidc.evp"
+local hmac = require "kong.plugins.oidc.hmac"
 local resty_random = require "resty.random"
 
 local _M = {_VERSION="0.2.2"}
@@ -659,7 +659,7 @@ end
 
 local function get_claim_spec_from_legacy_options(self, options)
   local claim_spec = { }
-  local jwt_validators = require "resty.jwt-validators"
+  local jwt_validators = require "kong.plugins.oidc.jwt-validators"
 
   if options[str_const.valid_issuers] ~= nil then
     claim_spec[str_const.iss] = jwt_validators.equals_any_of(options[str_const.valid_issuers])

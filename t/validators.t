@@ -46,7 +46,7 @@ __DATA__
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.required()
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -70,7 +70,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.required(function(val, claim, jwt_obj)
               if val == nil then error("SOMETHING BAD") end
               if claim == "foo" and val == "bar" then return true end
@@ -100,7 +100,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.required, "abc")
         ';
     }
@@ -117,7 +117,7 @@ Cannot create validator for non-function chain_function.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_check("checker", function(v1, v2)
               if v2 ~= "checker" then error("SOMETHING BAD") end
               if v1 == nil then error("SOMETHING BAD") end
@@ -150,7 +150,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_check, "checker", "abc", "my_name", "string")
         ';
     }
@@ -167,7 +167,7 @@ Cannot create validator for non-function check_function.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_check, nil, function(v1, v2) return true end, "my_name")
             __runSay(validators.opt_check, nil, function(v1, v2) return true end)
         ';
@@ -186,7 +186,7 @@ Cannot create validator for nil check_val.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_check("checker", function(v1, v2)
               if v2 ~= "checker" then error("SOMETHING BAD") end
               if v1 == nil then error("SOMETHING BAD") end
@@ -219,7 +219,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_check(42, function(v1, v2)
               if v2 ~= 42 then error("SOMETHING BAD") end
               if v1 == nil then error("SOMETHING BAD") end
@@ -251,7 +251,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.check("checker", function(v1, v2)
               if v2 ~= "checker" then error("SOMETHING BAD") end
               if v1 == nil then error("SOMETHING BAD") end
@@ -285,7 +285,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_equals("bar")
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -313,7 +313,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_equals(42)
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -341,7 +341,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.equals("bar")
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -369,7 +369,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_matches("^b[a-z]*$")
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -397,7 +397,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_matches, 42)
         ';
     }
@@ -414,7 +414,7 @@ Cannot create validator for non-string pattern.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.matches("^ba[a-z]*$")
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -443,7 +443,7 @@ false
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_any_of({ "foo", "bar" }, function(v1, v2)
               if v2 ~= "foo" and v2 ~= "bar" then error("SOMETHING BAD") end
               if v1 == nil then error("SOMETHING BAD") end
@@ -477,7 +477,7 @@ true
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_any_of({ "foo", "bar" }, function(v1, v2)
               if v2 ~= "foo" and v2 ~= "bar" then error("SOMETHING BAD") end
               if v1 == nil then error("SOMETHING BAD") end
@@ -513,7 +513,7 @@ true
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_any_of({ 42, 43 }, function(v1, v2)
               if v2 ~= 42 and v2 ~= 43 then error("SOMETHING BAD") end
               if v1 == nil then error("SOMETHING BAD") end
@@ -548,7 +548,7 @@ true
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_any_of, {}, function(v1, v2) return true end, "my_name", "string")
         ';
     }
@@ -566,7 +566,7 @@ Cannot create validator for empty table my_name.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_any_of, "abc", function(v1, v2) return true end, "my_name", "string")
         ';
     }
@@ -584,7 +584,7 @@ Cannot create validator for non-table my_name.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_any_of, { "abc", 123 }, function(v1, v2) return true end, "my_name", "string")
         ';
     }
@@ -601,7 +601,7 @@ Cannot create validator for non-string table my_name.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.any_of({ "foo", "bar" }, function(v1, v2)
               if v2 ~= "foo" and v2 ~= "bar" then error("SOMETHING BAD") end
               if v1 == nil then error("SOMETHING BAD") end
@@ -637,7 +637,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_equals_any_of({ "foo", "bar" })
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -665,7 +665,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_equals_any_of({ 41, 42, 42 })
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -694,7 +694,7 @@ true
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_equals_any_of, {})
         ';
     }
@@ -712,7 +712,7 @@ Cannot create validator for empty table check_values.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_equals_any_of, "abc")
         ';
     }
@@ -730,7 +730,7 @@ Cannot create validator for non-table check_values.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_equals_any_of, { "abc", 123 })
         ';
     }
@@ -747,7 +747,7 @@ Cannot create validator for non-string table check_values.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.equals_any_of({ "foo", "bar" })
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -775,7 +775,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_matches_any_of({ "^b[a-z]*$", "^abc$" })
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -803,7 +803,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_matches_any_of, { 41, 42 })
         ';
     }
@@ -821,7 +821,7 @@ Cannot create validator for non-string table patterns.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_matches_any_of, {})
         ';
     }
@@ -839,7 +839,7 @@ Cannot create validator for empty table patterns.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_matches_any_of, "abc")
         ';
     }
@@ -857,7 +857,7 @@ Cannot create validator for non-table patterns.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_matches_any_of, { "abc", 123 })
         ';
     }
@@ -875,7 +875,7 @@ Cannot create validator for non-string table patterns.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_matches_any_of, { 41, 42 })
         ';
     }
@@ -892,7 +892,7 @@ Cannot create validator for non-string table patterns.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.matches_any_of({ "^ba[a-z]*$", "^abc$" })
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -920,7 +920,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_greater_than(42)
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -950,7 +950,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_greater_than, "abc")
         ';
     }
@@ -967,7 +967,7 @@ Cannot create validator for non-number check_val.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.greater_than(42)
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -997,7 +997,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_greater_than_or_equal(42)
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1027,7 +1027,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_greater_than_or_equal, "abc")
         ';
     }
@@ -1044,7 +1044,7 @@ Cannot create validator for non-number check_val.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.greater_than_or_equal(42)
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1074,7 +1074,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_less_than(42)
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1104,7 +1104,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_less_than, "abc")
         ';
     }
@@ -1121,7 +1121,7 @@ Cannot create validator for non-number check_val.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.less_than(42)
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1151,7 +1151,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_less_than_or_equal(42)
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1181,7 +1181,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_less_than_or_equal, "abc")
         ';
     }
@@ -1198,7 +1198,7 @@ Cannot create validator for non-number check_val.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.less_than_or_equal(42)
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1228,7 +1228,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_is_not_before()
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1256,7 +1256,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.set_system_leeway, "abc")
         ';
     }
@@ -1273,7 +1273,7 @@ leeway must be a non-negative number
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.set_system_leeway, -1)
         ';
     }
@@ -1290,7 +1290,7 @@ leeway must be a non-negative number
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.set_system_clock, "abc")
         ';
     }
@@ -1307,7 +1307,7 @@ clock must be a function
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.set_system_clock, function() return "abc" end)
         ';
     }
@@ -1324,7 +1324,7 @@ clock function must return a non-negative number
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.set_system_clock, function() return -1 end)
         ';
     }
@@ -1341,7 +1341,7 @@ clock function must return a non-negative number
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             validators.set_system_leeway(3153600000)
             local tval = validators.opt_is_not_before()
             local obj = {
@@ -1370,7 +1370,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             validators.set_system_clock(function() return 956354999 end)
             local tval = validators.opt_is_not_before()
             local obj = {
@@ -1402,7 +1402,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             validators.set_system_leeway(1)
             validators.set_system_clock(function() return 956354999 end)
             local tval = validators.opt_is_not_before()
@@ -1434,7 +1434,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.is_not_before()
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1461,7 +1461,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_is_not_expired()
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1501,7 +1501,7 @@ near_future claim expired
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             validators.set_system_leeway(3153600000)
             local tval = validators.opt_is_not_expired()
             local obj = {
@@ -1530,7 +1530,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             validators.set_system_clock(function() return 956354999 end)
             local tval = validators.opt_is_not_expired()
             local obj = {
@@ -1562,7 +1562,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             validators.set_system_leeway(1)
             validators.set_system_clock(function() return 956354999 end)
             local tval = validators.opt_is_not_expired()
@@ -1594,7 +1594,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.is_not_expired()
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1622,7 +1622,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.chain(function(val, claim)
               ngx.say("1 - " .. claim)
             end, function(val, claim)
@@ -1662,7 +1662,7 @@ ONLY BLAH
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.require_one_of({ "foo", "blah" })
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1684,7 +1684,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.require_one_of({ "blah", "baz" })
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1706,7 +1706,7 @@ Missing one of claims - [ blah, baz ].
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.require_one_of({ "foo", "blah" })
             __testValidator(tval, "__jwt", nil)
         ';
@@ -1724,7 +1724,7 @@ GET /t
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.require_one_of({ "foo", "blah" })
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1745,7 +1745,7 @@ GET /t
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.require_one_of, { "foo", true })
         ';
     }
@@ -1762,7 +1762,7 @@ Cannot create validator for non-string table claim_keys.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.require_one_of, {})
         ';
     }
@@ -1779,7 +1779,7 @@ Cannot create validator for empty table claim_keys.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.require_one_of, "abc")
         ';
     }
@@ -1796,7 +1796,7 @@ Cannot create validator for non-table claim_keys.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.require_one_of)
         ';
     }
@@ -1813,7 +1813,7 @@ Cannot create validator for nil claim_keys.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_is_at()
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1841,7 +1841,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             validators.set_system_leeway(3153600000)
             local tval = validators.opt_is_at()
             local obj = {
@@ -1870,7 +1870,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             validators.set_system_clock(function() return 956354999 end)
             local tval = validators.opt_is_at()
             local obj = {
@@ -1902,7 +1902,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             validators.set_system_leeway(1)
             validators.set_system_clock(function() return 956354999 end)
             local tval = validators.opt_is_at()
@@ -1934,7 +1934,7 @@ true
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.is_at()
             local obj = {
               header = { type="JWT", alg="HS256" },
@@ -1962,7 +1962,7 @@ GET /t
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             local tval = validators.opt_contains_any_of({ "roleFoo", "roleBar" }, "roles")
             local obj1 = {
               header = { type="JWT", alg="HS256" },
@@ -2002,7 +2002,7 @@ false
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_contains_any_of, { 41, 42 }, "table-claim")
         ';
     }
@@ -2020,7 +2020,7 @@ Cannot create validator for non-string table table-claim.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_contains_any_of, {}, "table-claim")
         ';
     }
@@ -2038,7 +2038,7 @@ Cannot create validator for empty table table-claim.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_contains_any_of, "abc", "table-claim")
         ';
     }
@@ -2056,7 +2056,7 @@ Cannot create validator for non-table table-claim.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_contains_any_of, { "abc", 123 }, "table-claim")
         ';
     }
@@ -2074,7 +2074,7 @@ Cannot create validator for non-string table table-claim.
     location /t {
         content_by_lua '
             local cjson = require "cjson.safe"
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
             __runSay(validators.opt_contains_any_of, { 41, 42 }, "table-claim")
         ';
     }
@@ -2091,7 +2091,7 @@ Cannot create validator for non-string table table-claim.
 --- config
     location /t {
         content_by_lua '
-            local validators = require "resty.jwt-validators"
+            local validators = require "kong.plugins.oidc.jwt-validators"
 
             local tval = validators.contains_any_of({ "roleFoo", "roleBar" }, "roles")
             local obj1 = {

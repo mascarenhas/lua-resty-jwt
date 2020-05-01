@@ -71,7 +71,7 @@ and the [lua-resty-string](https://github.com/openresty/lua-resty-string),
         location = /verify {
             content_by_lua '
                 local cjson = require "cjson"
-                local jwt = require "resty.jwt"
+                local jwt = require "kong.plugins.oidc.jwt"
 
                 local jwt_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9" ..
                     ".eyJmb28iOiJiYXIifQ" ..
@@ -83,7 +83,7 @@ and the [lua-resty-string](https://github.com/openresty/lua-resty-string),
         location = /sign {
             content_by_lua '
                 local cjson = require "cjson"
-                local jwt = require "resty.jwt"
+                local jwt = require "kong.plugins.oidc.jwt"
 
                 local jwt_token = jwt:sign(
                     "lua-resty-jwt",
@@ -108,7 +108,7 @@ To load this library,
 2. you use `require` to load the library into a local Lua variable:
 
 ```lua
-    local jwt = require "resty.jwt"
+    local jwt = require "kong.plugins.oidc.jwt"
 ```
 
 [Back to TOC](#table-of-contents)
@@ -231,7 +231,7 @@ Multiple `claim_spec` tables can be specified to the `jwt:load` and `jwt:verify_
 
 A library of helpful `validator` functions exists at `resty.jwt-validators`.  You can use this library by including:
 ```
-local validators = require "resty.jwt-validators"
+local validators = require "kong.plugins.oidc.jwt-validators"
 ```
 
 The following functions are currently defined in the validator library.  Those marked with "(opt)" means that the same function exists named `opt_<name>` which takes the same parameters.  The "opt" version of the function will return `true` if the key does not exist in the payload of the jwt_object being verified, while the "non-opt" version of the function will return false if the key does not exist in the payload of the jwt_object being verified.
@@ -324,7 +324,7 @@ A function to set the system clock used for `is_not_before` and `is_not_expired`
 ### sample `claim_spec` using validators ###
 
 ```
-local validators = require "resty.jwt-validators"
+local validators = require "kong.plugins.oidc.jwt-validators"
 local claim_spec = {
     sub = validators.opt_matches("^[a-z]+$),
     iss = validators.equals_any_of({ "first", "second" }),
@@ -439,7 +439,7 @@ add the path of your lua-resty-jwt source tree to ngx_lua's Lua module search pa
 and then load the library in Lua:
 
 ```lua
-    local jwt = require "resty.jwt"
+    local jwt = require "kong.plugins.oidc.jwt"
 ```
 
 [Back to TOC](#table-of-contents)

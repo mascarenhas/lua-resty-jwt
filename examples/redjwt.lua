@@ -50,7 +50,7 @@ local function redkey(kid)
 end
 
 
-local jwt = require "resty.jwt"
+local jwt = require "kong.plugins.oidc.jwt"
 
 local jwt_obj = jwt:load_jwt(ngx.var.arg_jwt)
 if not jwt_obj.valid then

@@ -20,7 +20,7 @@ __DATA__
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_token = jwt:sign(
                 function(kid) return kid == "lua-resty-kid" and "lua-resty-jwt" or nil end,
                 {
@@ -45,7 +45,7 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6Imx1YS1yZXN0eS1raWQifQ.eyJmb28iOiJiY
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_token = jwt:sign(
                 function(kid) return kid == "lua-resty-kid" and "lua-resty-jwt" or nil end,
                 {
@@ -70,7 +70,7 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6Imx1YS1yZXN0eS1raWQifQ.eyJmb28iOiJiY
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local success, err = pcall(function() jwt:sign(
                 function(kid) return kid == "lua-resty-kid" and "lua-resty-jwt" or nil end,
                 {
@@ -95,7 +95,7 @@ secret function specified without kid in header
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local success, err = pcall(function() jwt:sign(
                 function(kid) return kid == "lua-resty-kid" and "lua-resty-jwt" or nil end,
                 {
@@ -120,7 +120,7 @@ function returned nil for kid: non-existant-kid
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:verify(
                 function(kid) return kid == "lua-resty-kid" and "lua-resty-jwt" or nil end, 
                 "invalid-random-str"
@@ -142,7 +142,7 @@ invalid jwt string
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:verify(
                 function(kid) return kid == "lua-resty-kid" and "lua-resty-jwt" or nil end,
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6Imx1YS1yZXN0eS1raWQifQ" ..
@@ -166,7 +166,7 @@ signature mismatch: signature
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:verify(
                 function(kid) return kid == "lua-resty-kid" and "lua-resty-jwt" or nil end,
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6Imx1YS1yZXN0eS1raWQifQ" ..
@@ -192,7 +192,7 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:verify(
                 function(kid) return kid == "lua-resty-kid" and "lua-resty-jwt" or nil end,
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9" ..
@@ -218,7 +218,7 @@ secret function specified without kid in header
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:verify(
                 function(kid) return kid == "lua-resty-kid" and "lua-resty-jwt" or nil end,
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiIsImtpZCI6Im5vbi1leGlzdGFudC1raWQifQ" ..
@@ -244,7 +244,7 @@ function returned nil for kid: non-existant-kid
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             
             local function get_kid(kid) return kid == "lua-resty-kid" and "lua-resty-jwt" or nil end
 

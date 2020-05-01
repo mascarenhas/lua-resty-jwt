@@ -1,4 +1,4 @@
-local jwt = require "resty.jwt"
+local jwt = require "kong.plugins.oidc.jwt"
 local jwt_token = ngx.var.arg_jwt
 if jwt_token then
     ngx.header['Set-Cookie'] = "jwt=" .. jwt_token

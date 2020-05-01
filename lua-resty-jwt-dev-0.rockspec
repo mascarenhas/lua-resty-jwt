@@ -20,9 +20,9 @@ dependencies = {
 build = {
   type = 'builtin',
   modules = {
-    ['resty.jwt'] = 'lib/resty/jwt.lua',
-    ['resty.evp'] = 'lib/resty/evp.lua',
-    ['resty.jwt-validators'] = 'lib/resty/jwt-validators.lua',
-    ['resty.hmac'] = 'third-party/lua-resty-hmac/lib/resty/hmac.lua'
+    ['kong.plugins.oidc.jwt'] = 'lib/resty/jwt.lua',
+    ['kong.plugins.oidc.evp'] = 'lib/resty/evp.lua',
+    ['kong.plugins.oidc.jwt-validators'] = 'lib/resty/jwt-validators.lua',
+    ["kong.plugins.oidc.hmac"] = 'third-party/lua-resty-hmac/lib/resty/hmac.lua'
   }
 }

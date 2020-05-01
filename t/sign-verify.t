@@ -20,7 +20,7 @@ __DATA__
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_token = jwt:sign(
                 "lua-resty-jwt",
                 {
@@ -45,7 +45,7 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIifQ.VAoRL1IU0nOguxURF2ZcKR0S
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_token = jwt:sign(
                 "lua-resty-jwt",
                 {
@@ -70,7 +70,7 @@ eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJmb28iOiJiYXIifQ._r7cUx1935GlmpI41mElmYQJ
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt", "invalid-random-str"
             )
@@ -92,7 +92,7 @@ invalid jwt string
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9" ..
@@ -117,7 +117,7 @@ signature mismatch: signature
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local jwt_obj = jwt:verify(
                 "lua-resty-jwt",
                 "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9" ..
@@ -143,7 +143,7 @@ everything is awesome~ :p
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
 
             local jwt_token = jwt:sign(
                 "lua-resty-jwt",
@@ -174,7 +174,7 @@ bar
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
 
             local function get_testcert(name)
                 local f = io.open("/lua-resty-jwt/testcerts/" .. name)
@@ -223,7 +223,7 @@ bar
         set $cert '-----BEGIN CERTIFICATE-----\nMIIEEDCCAvigAwIBAgIBATANBgkqhkiG9w0BAQUFADCBhDETMBEGCgmSJomT8ixk\nARkWA2NvbTEWMBQGCgmSJomT8ixkARkWBmRvY2tlcjETMBEGA1UECgwKRG9ja2Vy\nIEluYzEfMB0GA1UECwwWRG9ja2VyIFRlc3QgU2lnbmluZyBDQTEfMB0GA1UEAwwW\nRG9ja2VyIFRlc3QgU2lnbmluZyBDQTAeFw0xNTA1MTMyMzAxMzlaFw0xNzA1MTIy\nMzAxMzlaMGsxEzARBgoJkiaJk/IsZAEZFgNjb20xFjAUBgoJkiaJk/IsZAEZFgZk\nb2NrZXIxEzARBgNVBAoMCkRvY2tlciBJbmMxDDAKBgNVBAsMA2h1YjEZMBcGA1UE\nAwwQaHViZ3cuZG9ja2VyLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC\nggEBANt4HzdXTDX9yklf5wemrt39peRmdJAHpodYn3PQBhkv8VGEU5+kpV8M9zg5\nj7SSjOED9+3LZ09l6iTBT+dQCJMEgyHN1gHPzkyjklrKfCC6yIKUIt+I/oUoHm3e\nloACrJZXYniZxCpiDf5JeitHCaVxJRGj+MXORe5SVY+V7MLlA3NSDHX6gIhknq59\nBOmSVJyww3Ka54kYtZwz3KZzMdrfvCdkjiCeD1zMJwYX6IU9z746DfHNuMnsH7Di\nmrzhoX/3CMFj9sXdpcrzFSlMDqUxIQunFyN6G4JKZywf9Dvs30Ay6q8gBhursRFd\nx6otDl0z7tqfJkA3e4GSt4/DR7MCAwEAAaOBpDCBoTAOBgNVHQ8BAf8EBAMCBLAw\nCQYDVR0TBAIwADAnBgNVHSUEIDAeBggrBgEFBQcDAQYIKwYBBQUHAwIGCCsGAQUF\nBwMDMB0GA1UdDgQWBBQa440jFVFkVPsnGp3sp2bEdtz+6jAfBgNVHSMEGDAWgBQi\nzqX0zdgLeF6GAy7a+zvT4pBCLjAbBgNVHREEFDASghBodWJndy5kb2NrZXIuY29t\nMA0GCSqGSIb3DQEBBQUAA4IBAQB8PdN14gs6zB2m2eB1JpyoFSwho4O1z9UkZqdb\nGUB5SmElVydR2nOMLLUuJoa1zTd1FcX0zlHtDKuRXmO7xaPtrH4Uxiq3Lpu7i2WB\nUDTnMXuzX7hzc5DeU7k7mMbwKRkb+kijJTkET6wcaJwwDSyhzOCZgXW3V0WjHdbD\nprJc52tUk3CHOZY8iZWDVf9gHQpVeJnKzospXJRs3qQksEzD6ciRXu0VHnxeC0DP\n5pnQC17Kkm1QOCHRrsIGDHk9wB1zJlMoeMgIPrCLcC0GappmUlHSMka+3MZYgeW4\nAVlzdia3EYSUuM8Gb5tjSSm/6rTOnXR+zL4PBhNZdAD17hyY\n-----END CERTIFICATE-----';
         set $key '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDbeB83V0w1/cpJ\nX+cHpq7d/aXkZnSQB6aHWJ9z0AYZL/FRhFOfpKVfDPc4OY+0kozhA/fty2dPZeok\nwU/nUAiTBIMhzdYBz85Mo5JaynwgusiClCLfiP6FKB5t3paAAqyWV2J4mcQqYg3+\nSXorRwmlcSURo/jFzkXuUlWPlezC5QNzUgx1+oCIZJ6ufQTpklScsMNymueJGLWc\nM9ymczHa37wnZI4gng9czCcGF+iFPc++Og3xzbjJ7B+w4pq84aF/9wjBY/bF3aXK\n8xUpTA6lMSELpxcjehuCSmcsH/Q77N9AMuqvIAYbq7ERXceqLQ5dM+7anyZAN3uB\nkrePw0ezAgMBAAECggEBAIZga0SYN/qK9ROuG6fsn/8eMjfBn7ccaBNQ6PihM0qy\ntyABVK5XwkWLi8cqP1oBrS6NHn3D3/KWZSGyFzl7IHTb+2p0PIeJdDgqow7iEdR8\naQ7CowOZPrXLFa6R7jZc7M10nb9X7utAdG7xEFN1QGvC9j5x1n1OyjScxvSOiJPf\nQMyR7pAUW3GoNYBdgs8YWmMU7SiS8hp4LRsQ2aJpZUexUVk3o1E3ZIeM/joE+jFZ\nNX+rL0Aqmn0JVgKqZI2CbDB5AwJdSpUYd/m0Ko3E/Hxdu/CbeJqdjSl4ArVIyRBL\nJWY4aMbC81B6ftYGyjpBujXIoyTYNIhf+CYYXzNrsOkCgYEA8J4ajDpKtxowkbIj\nT+9FTY54d+SWcvwEKA22KayyFwx/mXWTnfsylzF6JbGAiZKSG9gbUOP1LsoGDsGj\nhFdLMSfmi151IbOJg1l74E7nM5bqW9ULGyLBOpWlvopXt31jV6uQd/t/+gdflyw0\nMtr642krwfz8UOshkeEIsk+7mmUCgYEA6X/omGsvMyLpa2IWjxwuw+51pCdIoZvL\n7BpV1YHqwO8jWVv1KKpOKzrYZVu93w0WMCHoG/g9FGQtOBmMRk2OKOxmCF+H1or4\nI1+iI/dhTPA2tEeAELX+yGtu4fpEHe+dga1QCNdq06366rn0bhWB5hst1DdVQnXn\n+0KjhLmg7DcCgYAxqQ/lnSpKfBdGGrP7DXEKPrtSU1VRyf25norYMxJWe3fiXkfn\nNS8N0WJaYTYcLqoFIScSHNo/m+aAKSrsZ2/XZ1rHrOkT2ZAqEc/lTaOeHCmmZmPy\nZ8vloXkhyD+uWSylrX0VpkyVd+wcsTzcuiFJyi0Dzojs0nqNNxqqYpZfmQKBgDep\npUIIcyUGkoxlwqj09/T/OI4cS0UzRaaQFJwkL1k06MFZmZTLHH1TtthayWWN0hdB\nTfq076KXyuvPs0/jFxuMVzpxw4kScdrE5nsactiLfw706IOTTxxp9/Ho3iogv/R0\n41poN/AkTmd8UteXSvMW0ZMAadPBFb8hAKgYNFN7AoGAbw6WYYPnhikP7gqWmTh0\n0SOeET5WbRfseiUWMfLGL+R5GmNiBhw63n8srz+KJVLJv0PJ/WKDR7o/Hxjv3w9c\ndkqcFG1MW2NKjrdxztptrRaSD7JyA750rB+CsrwvqzJCvwbulp1iRfWkTqq2fnUU\nQvpxhOYnq/ZlXPjUiE5w67w=\n-----END PRIVATE KEY-----';
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             jwt:set_trusted_certs_file("/path/to/cert")
 
             local jwt_token = jwt:sign(
@@ -260,7 +260,7 @@ bar
         set $cert '-----BEGIN CERTIFICATE-----\nMIIEEDCCAvigAwIBAgIBATANBgkqhkiG9w0BAQUFADCBhDETMBEGCgmSJomT8ixk\nARkWA2NvbTEWMBQGCgmSJomT8ixkARkWBmRvY2tlcjETMBEGA1UECgwKRG9ja2Vy\nIEluYzEfMB0GA1UECwwWRG9ja2VyIFRlc3QgU2lnbmluZyBDQTEfMB0GA1UEAwwW\nRG9ja2VyIFRlc3QgU2lnbmluZyBDQTAeFw0xNTA1MTMyMzAxMzlaFw0xNzA1MTIy\nMzAxMzlaMGsxEzARBgoJkiaJk/IsZAEZFgNjb20xFjAUBgoJkiaJk/IsZAEZFgZk\nb2NrZXIxEzARBgNVBAoMCkRvY2tlciBJbmMxDDAKBgNVBAsMA2h1YjEZMBcGA1UE\nAwwQaHViZ3cuZG9ja2VyLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC\nggEBANt4HzdXTDX9yklf5wemrt39peRmdJAHpodYn3PQBhkv8VGEU5+kpV8M9zg5\nj7SSjOED9+3LZ09l6iTBT+dQCJMEgyHN1gHPzkyjklrKfCC6yIKUIt+I/oUoHm3e\nloACrJZXYniZxCpiDf5JeitHCaVxJRGj+MXORe5SVY+V7MLlA3NSDHX6gIhknq59\nBOmSVJyww3Ka54kYtZwz3KZzMdrfvCdkjiCeD1zMJwYX6IU9z746DfHNuMnsH7Di\nmrzhoX/3CMFj9sXdpcrzFSlMDqUxIQunFyN6G4JKZywf9Dvs30Ay6q8gBhursRFd\nx6otDl0z7tqfJkA3e4GSt4/DR7MCAwEAAaOBpDCBoTAOBgNVHQ8BAf8EBAMCBLAw\nCQYDVR0TBAIwADAnBgNVHSUEIDAeBggrBgEFBQcDAQYIKwYBBQUHAwIGCCsGAQUF\nBwMDMB0GA1UdDgQWBBQa440jFVFkVPsnGp3sp2bEdtz+6jAfBgNVHSMEGDAWgBQi\nzqX0zdgLeF6GAy7a+zvT4pBCLjAbBgNVHREEFDASghBodWJndy5kb2NrZXIuY29t\nMA0GCSqGSIb3DQEBBQUAA4IBAQB8PdN14gs6zB2m2eB1JpyoFSwho4O1z9UkZqdb\nGUB5SmElVydR2nOMLLUuJoa1zTd1FcX0zlHtDKuRXmO7xaPtrH4Uxiq3Lpu7i2WB\nUDTnMXuzX7hzc5DeU7k7mMbwKRkb+kijJTkET6wcaJwwDSyhzOCZgXW3V0WjHdbD\nprJc52tUk3CHOZY8iZWDVf9gHQpVeJnKzospXJRs3qQksEzD6ciRXu0VHnxeC0DP\n5pnQC17Kkm1QOCHRrsIGDHk9wB1zJlMoeMgIPrCLcC0GappmUlHSMka+3MZYgeW4\nAVlzdia3EYSUuM8Gb5tjSSm/6rTOnXR+zL4PBhNZdAD17hyY\n-----END CERTIFICATE-----';
         set $key '-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDbeB83V0w1/cpJ\nX+cHpq7d/aXkZnSQB6aHWJ9z0AYZL/FRhFOfpKVfDPc4OY+0kozhA/fty2dPZeok\nwU/nUAiTBIMhzdYBz85Mo5JaynwgusiClCLfiP6FKB5t3paAAqyWV2J4mcQqYg3+\nSXorRwmlcSURo/jFzkXuUlWPlezC5QNzUgx1+oCIZJ6ufQTpklScsMNymueJGLWc\nM9ymczHa37wnZI4gng9czCcGF+iFPc++Og3xzbjJ7B+w4pq84aF/9wjBY/bF3aXK\n8xUpTA6lMSELpxcjehuCSmcsH/Q77N9AMuqvIAYbq7ERXceqLQ5dM+7anyZAN3uB\nkrePw0ezAgMBAAECggEBAIZga0SYN/qK9ROuG6fsn/8eMjfBn7ccaBNQ6PihM0qy\ntyABVK5XwkWLi8cqP1oBrS6NHn3D3/KWZSGyFzl7IHTb+2p0PIeJdDgqow7iEdR8\naQ7CowOZPrXLFa6R7jZc7M10nb9X7utAdG7xEFN1QGvC9j5x1n1OyjScxvSOiJPf\nQMyR7pAUW3GoNYBdgs8YWmMU7SiS8hp4LRsQ2aJpZUexUVk3o1E3ZIeM/joE+jFZ\nNX+rL0Aqmn0JVgKqZI2CbDB5AwJdSpUYd/m0Ko3E/Hxdu/CbeJqdjSl4ArVIyRBL\nJWY4aMbC81B6ftYGyjpBujXIoyTYNIhf+CYYXzNrsOkCgYEA8J4ajDpKtxowkbIj\nT+9FTY54d+SWcvwEKA22KayyFwx/mXWTnfsylzF6JbGAiZKSG9gbUOP1LsoGDsGj\nhFdLMSfmi151IbOJg1l74E7nM5bqW9ULGyLBOpWlvopXt31jV6uQd/t/+gdflyw0\nMtr642krwfz8UOshkeEIsk+7mmUCgYEA6X/omGsvMyLpa2IWjxwuw+51pCdIoZvL\n7BpV1YHqwO8jWVv1KKpOKzrYZVu93w0WMCHoG/g9FGQtOBmMRk2OKOxmCF+H1or4\nI1+iI/dhTPA2tEeAELX+yGtu4fpEHe+dga1QCNdq06366rn0bhWB5hst1DdVQnXn\n+0KjhLmg7DcCgYAxqQ/lnSpKfBdGGrP7DXEKPrtSU1VRyf25norYMxJWe3fiXkfn\nNS8N0WJaYTYcLqoFIScSHNo/m+aAKSrsZ2/XZ1rHrOkT2ZAqEc/lTaOeHCmmZmPy\nZ8vloXkhyD+uWSylrX0VpkyVd+wcsTzcuiFJyi0Dzojs0nqNNxqqYpZfmQKBgDep\npUIIcyUGkoxlwqj09/T/OI4cS0UzRaaQFJwkL1k06MFZmZTLHH1TtthayWWN0hdB\nTfq076KXyuvPs0/jFxuMVzpxw4kScdrE5nsactiLfw706IOTTxxp9/Ho3iogv/R0\n41poN/AkTmd8UteXSvMW0ZMAadPBFb8hAKgYNFN7AoGAbw6WYYPnhikP7gqWmTh0\n0SOeET5WbRfseiUWMfLGL+R5GmNiBhw63n8srz+KJVLJv0PJ/WKDR7o/Hxjv3w9c\ndkqcFG1MW2NKjrdxztptrRaSD7JyA750rB+CsrwvqzJCvwbulp1iRfWkTqq2fnUU\nQvpxhOYnq/ZlXPjUiE5w67w=\n-----END PRIVATE KEY-----';
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             jwt:set_trusted_certs_file("/path/to/cert")
 
             local jwt_token = jwt:sign(
@@ -295,7 +295,7 @@ bar
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
 
             jwt:set_alg_whitelist({RS256=1})
 
@@ -323,7 +323,7 @@ whitelist unsupported alg: HS256
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
 
             local function get_testcert(name)
                 local f = io.open("/lua-resty-jwt/testcerts/" .. name)
@@ -382,7 +382,7 @@ bar
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             local function get_testcert(name)
                 local f = io.open("/lua-resty-jwt/testcerts/" .. name)
                 local contents = f:read("*all")
@@ -424,7 +424,7 @@ bar
 --- config
     location /t {
         content_by_lua '
-            local jwt = require "resty.jwt"
+            local jwt = require "kong.plugins.oidc.jwt"
             
             local function get_testcert(name)
                 local f = io.open("/lua-resty-jwt/testcerts/" .. name)
